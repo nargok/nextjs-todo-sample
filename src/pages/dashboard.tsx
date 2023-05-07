@@ -5,6 +5,8 @@ import axios from 'axios'
 import { LogoutIcon } from '@heroicons/react/solid'
 import { Layout } from '@/components/Layout'
 import { UserInfo } from '@/components/UserInfo'
+import { TaskForm } from '@/components/TaskForm'
+import { TaskList } from '@/components/TaskList'
 
 const DashBoard: NextPage = () => {
   const router = useRouter()
@@ -14,6 +16,7 @@ const DashBoard: NextPage = () => {
    * ログアウトする
    */
   const logout = async () => {
+    queryClient.removeQueries(['tasks'])
     queryClient.removeQueries(['user']) // cacheのクリア
     await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/logout`)
     router.push('/')
@@ -26,6 +29,8 @@ const DashBoard: NextPage = () => {
         onClick={logout}
       />
       <UserInfo />
+      <TaskForm />
+      <TaskList />
     </Layout>
   )
 }
